@@ -1,4 +1,5 @@
-import sys, csv, requests, urllib
+import sys, csv, urllib
+from security import safe_requests
 
 def parse_writeups(writeups_csv):
     writeups = []
@@ -18,7 +19,7 @@ def archive(url):
     url = urllib.parse.quote(url)
 
     try:
-        r = requests.get(f"https://web.archive.org/save/{url}", headers=headers, timeout=120, allow_redirects=False)
+        r = safe_requests.get(f"https://web.archive.org/save/{url}", headers=headers, timeout=120, allow_redirects=False)
         print(f"[+] Successfully archived '{url}', archive: '{r.headers['location']}'")
         return r.headers["location"]
     except:

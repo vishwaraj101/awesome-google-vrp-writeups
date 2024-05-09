@@ -1,6 +1,7 @@
-import os, random, string, errno, csv, requests, re, urllib
+import os, random, string, csv, re, urllib
 from requests_oauthlib import OAuth1Session
 import csv_to_readme
+from security import safe_requests
 
 twitter_ck = os.getenv("AGVRPW_TWITTER_CK", "")
 twitter_cs = os.getenv("AGVRPW_TWITTER_CS", "")
@@ -56,7 +57,7 @@ def archive(url):
     url = urllib.parse.quote(url)
 
     try:
-        r = requests.get(f"https://web.archive.org/save/{url}", headers=headers, timeout=120, allow_redirects=False)
+        r = safe_requests.get(f"https://web.archive.org/save/{url}", headers=headers, timeout=120, allow_redirects=False)
         print(f"[+] Successfully archived '{url}', archive: '{r.headers['location']}'")
         return r.headers["location"]
     except:
